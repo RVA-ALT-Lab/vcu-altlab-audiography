@@ -1,4 +1,20 @@
 <?php
-echo '<h1>Edit Audio</h1><br><a href="/wp-admin/admin.php?page=vcu_altlab_audiography&action=edit">Edit link</a>';
+
+if (isset($_GET['id'])){
+
+	$options = get_option('audiography_plugin'); 
+
+	$selected_audiographic; 
+
+	foreach($options as $value){
+		if ($value['id'] == $_GET['id']){
+			$selected_audiographic = $value; 
+		}
+	}
+
+
+}
+
+require_once(plugin_dir_path(__DIR__) . '/views/edit-audio-view.php'); 
 
 ?>
