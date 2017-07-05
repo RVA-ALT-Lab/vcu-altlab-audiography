@@ -33,8 +33,6 @@ add_action('admin_menu', 'vcu_altlab_audiography_menu');
 
 function vcu_altlab_audiography_options_page(){
 
-	//
-
 	//require main class 
 	if(!current_user_can('manage_options')){
 			wp_die( 'You do not have sufficient permissions to access this page' ); 
@@ -42,7 +40,6 @@ function vcu_altlab_audiography_options_page(){
 	}
 
 	//run bootstrap scripts here to 
-
 
 	if(isset($_FILES['uploaded-audio'])){
 		$file = $_FILES['uploaded-audio'];
@@ -102,10 +99,13 @@ function vcu_altlab_audiography_options_page(){
 
 
 function vcu_altlab_audiography_load_scripts($hook){
+	
 	if($hook !== 'toplevel_page_vcu_altlab_audiography'){
 		return; 
 	}
-	wp_enqueue_script('peak-js', plugins_url('/js/peaks.js', __FILE__));  
+
+	wp_enqueue_script('peak-js', plugins_url('/js/peaks.js', __FILE__)); 
+	wp_enqueue_script('vue-js', plugins_url('/js/vue.js', __FILE__));  
 
 }
 
@@ -117,7 +117,6 @@ add_action('admin_enqueue_scripts', 'vcu_altlab_audiography_load_scripts' );
 
 function vcu_altlab_audiography_shortcode($atts = [], $content = null){
 		$id = $atts['id']; 
-
 		return '<h2>Here is a test string to replace</h2>  ' . $id; 
 }
 
