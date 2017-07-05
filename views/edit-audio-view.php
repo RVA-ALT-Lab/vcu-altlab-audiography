@@ -4,39 +4,50 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 
 <div class="wrap">
 
-<h2><?php echo $selected_audiographic['id'] ?></h2>
-<p><?php echo $selected_audiographic['name'] ?></p>
-<p><?php echo $selected_audiographic['media_url'] ?></p>
-<?php echo sprintf('<a href="/wp-admin/admin.php?page=vcu_altlab_audiography&action=edit&id=%s">Edit This File</a>', $selected_audiographic['id']) ?>
-
+<h2><?php echo $selected_audiographic['name'] ?></h2>
+<table class="table">
+	<tr>
+		<td>ID</td>
+		<td><?php echo $selected_audiographic['id'] ?></td>
+	</tr>
+	<tr>
+		<td>Media URL</td>
+		<td>
+		<?php echo sprintf('<a href="%s">%s</a>', $selected_audiographic['media_url'], $selected_audiographic['media_url']) ?>
+		</td>
+	</tr>
+</table>
+<br>
 
 <?php echo sprintf('<audio id="audiographic-source"> <source src="%s"></source></audio>', $selected_audiographic['media_url']) ?>
 		<div id="custom-audio-controls">
 			<div class="btn btn-default" id="seek-backward-button">
-				<span class="glyphicon glyphicon-backward">Back</span>
+				<span class="glyphicon glyphicon-backward"></span>
 			</div>
 			<div class="btn btn-default" id="play-button">
-				<span class="glyphicon glyphicon-play">Play</span>
+				<span class="glyphicon glyphicon-play"></span>
 			</div>
 			<div class="btn btn-default" id="pause-button">
-				<span class="glyphicon glyphicon-pause">Pause</span>
+				<span class="glyphicon glyphicon-pause"></span>
 			</div>
 			<div class="btn btn-default" id="seek-forward-button">
-				<span class="glyphicon glyphicon-forward">Forward</span>
+				<span class="glyphicon glyphicon-forward"></span>
 			</div>
 			<div class="btn btn-default" id="zoom-in-button">
-				<span class="glyphicon glyphicon-zoom-in">Zoom In</span>
+				<span class="glyphicon glyphicon-zoom-in"></span>
 			</div>
 			<div class="btn btn-default" id="zoom-out-button">
-				<span class="glyphicon glyphicon-zoom-out">Zoom Out</span>
+				<span class="glyphicon glyphicon-zoom-out"></span>
 			</div>
 		</div>
 
-
+<br>
 <div id="audiographic-waveform"></div>
-<button type="button">+ Add Segment</button>
+<br>
+<button type="button" class="btn btn-default" id="add-segment"><span class="glyphicon glyphicon-plus"></span> Add Segment</button>
+<button type="button" class="btn btn-default" id="add-point"><span class="glyphicon glyphicon-plus"></span> Add Point</button>
 
-<div id="new-segment-form">
+<div id="new-segment-form" style="display: none;">
 	<form name="new-segment" id="new-segment" method="post">
 		<input type="hidden" name="edit-audio-submitted" id="edit-audio-submitted" value="Y">
 		<input type="hidden" name="audiographic-id" value="<?php echo $selected_audiographic['id'] ?>">
@@ -67,10 +78,24 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 
 <h3>Existing Segments</h3>
 
-<?php foreach($selected_audiographic_segments as $segment): ?>
-<h4><?php  echo $segment['segmentName'] ?></h4>
 
-<?php endforeach; ?>
+<div class="list-group">
+
+
+<?php if($selected_audiographic_segments): ?>
+	<?php foreach($selected_audiographic_segments as $segment): ?>
+
+	<div class="list-group-item">
+	<h4><?php  echo $segment['segmentName'] ?></h4>
+	<p><?php  echo $segment['startTime'] ?> to <?php  echo $segment['endTime'] ?></p>
+	<a href="wp-admin/admin.php?page=vcu_altlab_audiography&action=edit&id=<?php echo $selected_audiographic['id'] ?>&segmentId=<?php echo $segment['id']; ?>" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit Segment</a>
+	<a href="" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete Segment</a>
+	</div>
+	<?php endforeach; ?>
+<?php endif; ?>
+	
+</div>
+
 
 
 </div>
@@ -106,18 +131,33 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 		      console.log('clicked'); 
 		        var segments = p.segments.getSegments(); 
 		        document.querySelector('#export-area').innerText = segments; 
-		    }
+		    }, 
+		    generateUniqueId: function(){
+		    	var id;
+		    	function s4() {
+				  return Math.floor((1 + Math.random()) * 0x10000)
+				    .toString(16)
+				    .substring(1);
+				} 
+
+		    	return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+			    s4() + '-' + s4() + s4() + s4();
+			}
 		  }
 
 		  var myAudioContext = new AudioContext(); 
 
 		  var existingSegments = <?php echo $segments_json; ?>; 
-		  existingSegments.forEach(function(segment){
-		  	segment.startTime = parseInt(segment.startTime); 
-		  	segment.endTime = parseInt(segment.endTime); 
 
-		  }); 
+		  if (existingSegments !== null && existingSegments !== undefined && existingSegments !== false){
+			  existingSegments.forEach(function(segment){
+			  	segment.startTime = parseInt(segment.startTime); 
+			  	segment.endTime = parseInt(segment.endTime); 
 
+			  }); 
+		  } else {
+		  	existingSegments = {}; 
+		  }
 
 		  var p = Peaks.init({
 
@@ -147,11 +187,15 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 		
 		  p.on('segments.ready', function(){
 
+		  	var guid = audiography.generateUniqueId(); 
+		  	console.log(guid); 
+
 		  	p.segments.add({
 		  		startTime: newSegment.startTime, 
 		  		endTime: newSegment.endTime,
 		  		color: newSegment.color, 
 		  		editable: true,
+		  		id: guid, 
 
 		  	})
 

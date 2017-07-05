@@ -42,19 +42,15 @@ function vcu_altlab_audiography_options_page(){
 	//run bootstrap scripts here to 
 
 	if(isset($_FILES['uploaded-audio'])){
+		$audiographic_upload_error = false; 
+		$audiographic_upload_successful = true; 
+
+		global $audiographic_upload_error, $audiographic_upload_successful; 
 		$file = $_FILES['uploaded-audio'];
 		$audiographic_name = $_POST['audiographic-name'];  
 
 		$uploaded = media_handle_upload('uploaded-audio', 0); 
-
-		if (is_wp_error($uploaded)){
-			echo 'There is some sort of error ' . $uploaded->get_error_message(); 
-			require_once(plugin_dir_path(__FILE__) . '/controllers/upload-audio-controller.php'); 
-		} else {
-			echo 'Your file upload was successful, here is the id: ' . $uploaded; 
-			require_once(plugin_dir_path(__FILE__) . '/controllers/upload-audio-controller.php');  
-		}
-
+		require_once(plugin_dir_path(__FILE__) . '/controllers/upload-audio-controller.php'); 
 	}
 
 
@@ -98,12 +94,12 @@ function vcu_altlab_audiography_options_page(){
 
 
 
-function vcu_altlab_audiography_load_scripts($hook){
+function vcu_altlab_audiography_load_admin_scripts($hook){
 	
 	if($hook !== 'toplevel_page_vcu_altlab_audiography'){
 		return; 
 	}
-
+	wp_enqueue_style('bootstrap-css', plugins_url('/css/bootstrap.css', __FILE__)); 
 	wp_enqueue_script('peak-js', plugins_url('/js/peaks.js', __FILE__)); 
 	wp_enqueue_script('vue-js', plugins_url('/js/vue.js', __FILE__));  
 
@@ -111,18 +107,42 @@ function vcu_altlab_audiography_load_scripts($hook){
 
 add_action('admin_enqueue_scripts', 'vcu_altlab_audiography_load_scripts' );  
 
+function vcu_altlab_audiography_load_scripts($hook){
+	
+	wp_enqueue_style('bootstrap-css', plugins_url('/css/bootstrap.css', __FILE__)); 
+	wp_enqueue_script('peak-js', plugins_url('/js/peaks.js', __FILE__)); 
+	wp_enqueue_script('vue-js', plugins_url('/js/vue.js', __FILE__));  
 
+}
 
+add_action('wp_enqueue_scripts', 'vcu_altlab_audiography_load_scripts' );
 
 
 function vcu_altlab_audiography_shortcode($atts = [], $content = null){
 		$id = $atts['id']; 
-		return '<h2>Here is a test string to replace</h2>  ' . $id; 
+
+		$selected_audiographic; 
+		$segments_json; 
+		$options = get_option('audiography_plugin'); 
+
+		foreach ($options as $option) {
+			if ($id == $option['id']){
+
+				$selected_audiographic = $option; 
+			}
+		}
+
+		$selected_audiographic_segments = get_option('audiography_plugin_audiographic_' . $selected_audiographic['id']); 
+		$segments_json = json_encode($selected_audiographic_segments); 
+
+		$return = require_once(plugin_dir_path(__FILE__) . '/views/shortcode-view.php'); 
+
+		return $return;  
 }
 
 
 function init_shortcodes(){
-	add_shortcode('audiography', 'vcu_altlab_audiography_shortcode'); 
+	add_shortcode('audiographic', 'vcu_altlab_audiography_shortcode'); 
 }
 
 add_action('init', 'init_shortcodes'); 

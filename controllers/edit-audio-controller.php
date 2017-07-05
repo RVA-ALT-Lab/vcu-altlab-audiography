@@ -12,7 +12,7 @@ if (isset($_POST['edit-audio-submitted']) && $_POST['edit-audio-submitted'] == '
 
 
 	$newSegment = array(
-		'segmentId' => $segmentId, 
+		'id' => $segmentId, 
 		'segmentName' => $segmentName, 
 		'segmentDescription' => $segmentDescription, 
 		'startTime' => $startTime, 
@@ -23,7 +23,6 @@ if (isset($_POST['edit-audio-submitted']) && $_POST['edit-audio-submitted'] == '
 	$segment_options = get_option('audiography_plugin_audiographic_' . $audiographic_id );
 
 	if ($segment_options){
-		echo $segment_options; 
 
 		array_push($segment_options, $newSegment); 
 		update_option('audiography_plugin_audiographic_' . $audiographic_id , $segment_options); 
@@ -53,8 +52,6 @@ if (isset($_GET['id'])){
 			$selected_audiographic = $value; 
 
 			$selected_audiographic_segments = get_option('audiography_plugin_audiographic_'. $selected_audiographic['id']); 
-
-			echo $selected_audiographic_segments[0]['segmentName']; 
 			$segments_json = json_encode($selected_audiographic_segments); 
 
 		}
