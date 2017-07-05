@@ -66,7 +66,14 @@ function vcu_altlab_audiography_options_page(){
 			break; 
 			
 			case 'edit':
-			require_once(plugin_dir_path(__FILE__) . '/controllers/edit-audio-controller.php');
+				
+				if ( isset($_GET['id']) && isset($_GET['segmentId'])){
+					require_once(plugin_dir_path(__FILE__) . '/controllers/edit-audio-segment-controller.php');
+				} else if ( isset($_GET['id']) ){
+					require_once(plugin_dir_path(__FILE__) . '/controllers/edit-audio-controller.php');	
+				} else {
+					require_once(plugin_dir_path(__FILE__) . '/controllers/edit-audio-controller.php');
+				}	
 			break; 
 			
 

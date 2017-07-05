@@ -3,7 +3,7 @@
 $audiographic_upload_successful = false; 
 $audiographic_upload_error = null; 
 
-if (is_wp_error($uploaded)){
+if (isset($uploaded) && is_wp_error($uploaded)){
 
 	$audiographic_upload_error = $uploaded->get_error_message(); 
 
