@@ -47,7 +47,7 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 <button type="button" class="btn btn-default" id="add-segment"><span class="glyphicon glyphicon-plus"></span> Add Segment</button>
 <button type="button" class="btn btn-default" id="add-point"><span class="glyphicon glyphicon-plus"></span> Add Point</button>
 
-<div id="new-segment-form" style="display: none;">
+<div id="new-segment-form">
 	<form name="new-segment" id="new-segment" method="post">
 		<input type="hidden" name="edit-audio-submitted" id="edit-audio-submitted" value="Y">
 		<input type="hidden" name="audiographic-id" value="<?php echo $selected_audiographic['id'] ?>">
@@ -88,7 +88,8 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 	<div class="list-group-item">
 	<h4><?php  echo $segment['segmentName'] ?></h4>
 	<p><?php  echo $segment['startTime'] ?> to <?php  echo $segment['endTime'] ?></p>
-	<a href="wp-admin/admin.php?page=vcu_altlab_audiography&action=edit&id=<?php echo $selected_audiographic['id'] ?>&segmentId=<?php echo $segment['id']; ?>" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit Segment</a>
+	<p><?php echo stripslashes($segment['segmentDescription']); ?></p>
+	<a href="/wp-admin/admin.php?page=vcu_altlab_audiography&action=edit&id=<?php echo $selected_audiographic['id'] ?>&segmentId=<?php echo $segment['id']; ?>" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit Segment</a>
 	<a href="" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete Segment</a>
 	</div>
 	<?php endforeach; ?>
@@ -132,22 +133,16 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 		        var segments = p.segments.getSegments(); 
 		        document.querySelector('#export-area').innerText = segments; 
 		    }, 
-		    generateUniqueId: function(){
-		    	var id;
-		    	function s4() {
-				  return Math.floor((1 + Math.random()) * 0x10000)
-				    .toString(16)
-				    .substring(1);
-				} 
-
-		    	return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-			    s4() + '-' + s4() + s4() + s4();
+		    generateUniqueId: function(min, max){
+		    	return Math.floor(Math.random() * (max - min + 1)) + min; 
 			}
 		  }
 
 		  var myAudioContext = new AudioContext(); 
 
 		  var existingSegments = <?php echo $segments_json; ?>; 
+
+		  console.log(existingSegments); 
 
 		  if (existingSegments !== null && existingSegments !== undefined && existingSegments !== false){
 			  existingSegments.forEach(function(segment){
@@ -156,7 +151,7 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 
 			  }); 
 		  } else {
-		  	existingSegments = {}; 
+		  	existingSegments = []; 
 		  }
 
 		  var p = Peaks.init({
@@ -175,7 +170,7 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 		  			startTime: 60, 
 		  			endTime: 120, 
 		  			color: '#000000',
-		  			segmentId: '', 
+		  			segmentId: audiography.generateUniqueId(1, 100000), 
 		  			segmentTitle: '',  
 		  			segmentToAdd: {}
 
@@ -187,7 +182,7 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 		
 		  p.on('segments.ready', function(){
 
-		  	var guid = audiography.generateUniqueId(); 
+		  	var guid = audiography.generateUniqueId(1, 1000); 
 		  	console.log(guid); 
 
 		  	p.segments.add({
@@ -195,7 +190,7 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 		  		endTime: newSegment.endTime,
 		  		color: newSegment.color, 
 		  		editable: true,
-		  		id: guid, 
+		  		id: newSegment.segmentId, 
 
 		  	})
 
