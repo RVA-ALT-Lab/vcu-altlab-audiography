@@ -8,7 +8,9 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 
 <?php if($audiographic_upload_successful): ?>
 	<div class="alert alert-success alert-dismissable">
-		Your file <?php echo $audiographic_name; ?> was uploaded successfully. <a href="/wp-admin/admin.php?page=vcu_altlab_audiography&action=edit&id=<?php echo $uploaded; ?>">Click here to start editing this audiographic.</a>
+		Your file <?php echo $audiographic_name; ?> was uploaded successfully. 
+
+		<?php echo sprintf('<a href="%s/wp-admin/admin.php?page=vcu_altlab_audiography&action=edit&id=%s">Click here to start editing this audiographic.</a>', get_site_url(), $uploaded) ?>
 	</div>
 
 <?php endif; ?>	
@@ -16,7 +18,7 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 <?php if($audiographic_upload_error): ?>
 	<div class="alert alert-danger alert-dismissable">
 		There was an error uploading your file, <?php echo $audiographic_name; ?>.
-		Details: <?php echo $error; ?>
+		Details: <?php echo $audiographic_upload_error ?>
 	</div>
 
 <?php endif; ?>	
