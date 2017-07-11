@@ -132,6 +132,9 @@ add_action('wp_enqueue_scripts', 'vcu_altlab_audiography_load_scripts' );
 
 
 function vcu_altlab_audiography_shortcode($atts = [], $content = null){
+		
+		ob_start(); 
+
 		$id = $atts['id']; 
 
 		$selected_audiographic; 
@@ -146,11 +149,15 @@ function vcu_altlab_audiography_shortcode($atts = [], $content = null){
 		}
 
 		$selected_audiographic_segments = get_option('audiography_plugin_audiographic_' . $selected_audiographic['id']); 
+		foreach ($selected_audiographic_segments as &$segment) {
+			$segment['segmentDescription'] = stripslashes($segment['segmentDescription']); 
+		}
+
 		$segments_json = json_encode($selected_audiographic_segments); 
 
-		$return = require_once(plugin_dir_path(__FILE__) . '/views/shortcode-view.php'); 
+		require_once(plugin_dir_path(__FILE__) . '/views/shortcode-view.php'); 
 
-		return $return;  
+		return ob_get_clean();  
 }
 
 

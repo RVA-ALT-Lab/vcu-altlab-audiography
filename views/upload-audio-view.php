@@ -8,7 +8,7 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 
 <?php if($audiographic_upload_successful): ?>
 	<div class="alert alert-success alert-dismissable">
-		Your file <?php echo $audiographic_name; ?> was uploaded successfully.
+		Your file <?php echo $audiographic_name; ?> was uploaded successfully. <a href="/wp-admin/admin.php?page=vcu_altlab_audiography&action=edit&id=<?php echo $uploaded; ?>">Click here to start editing this audiographic.</a>
 	</div>
 
 <?php endif; ?>	

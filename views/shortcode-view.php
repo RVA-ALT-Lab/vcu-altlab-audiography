@@ -37,13 +37,29 @@
 				Current Time: {{currentTime}} 
 			</h5>
 			<div>
-				<div class="list-group">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="list-group">
 				    <a v-bind:class="{active: (segment.startTime < currentTime && segment.endTime > currentTime), 'list-group-item': true }" v-for="segment in segments" v-on:click="seekToSegment(segment)">
 				      <h5>{{segment.segmentName }}</h5>
-				      <p>{{segment.startTime}} - {{segment.endTime}}</p>
-				      <p>{{segment.segmentDescription}}</p>
+				      <p>{{Math.floor(segment.startTime)}} - {{Math.floor(segment.endTime)}}</p>
 				    </a>
 				 </div>
+				</div>
+				<div class="col-lg-9">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div v-if="currentSegment" v-html="currentSegment.segmentDescription">
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				<div class="col-lg-9">
+					
+				</div>
+				
+			</div>
 
 			</div>
 		</div>
@@ -114,6 +130,26 @@
 			        //segments: p.segments.getSegments(),
 			        currentTime: 0
 			      }, 
+			      computed: {
+			      	currentSegment: function(){
+
+			      		var segments = this.segments; 
+			      		var currentTime = this.currentTime; 
+			      		var currentSegment; 
+
+			      		segments.forEach(function(segment){
+			      		
+			      		if (segment.startTime < currentTime && segment.endTime > currentTime){
+			      			currentSegment = segment; 
+
+			      			}
+
+			      		});
+
+			      		return currentSegment; 
+
+			      	}
+			      },
 			      methods: {
 			        seekToSegment: function(segment){
 			          console.log(segment)
