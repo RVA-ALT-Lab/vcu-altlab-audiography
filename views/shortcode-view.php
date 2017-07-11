@@ -26,10 +26,28 @@
 			</div>
 		</div>
 
-
+<br>
 <div id="audiographic-waveform">
 	
 </div>
+<div class="col-lg-12" id="segments-list">
+			<h3>Existing Segments</h2>
+			<p>Click on one of the segments from the list below to skip to the beginning of that segment.</p>
+			<h5>
+				Current Time: {{currentTime}} 
+			</h5>
+			<div>
+				<div class="list-group">
+				    <a v-bind:class="{active: (segment.startTime < currentTime && segment.endTime > currentTime), 'list-group-item': true }" v-for="segment in segments" v-on:click="seekToSegment(segment)">
+				      <h5>{{segment.segmentName }}</h5>
+				      <p>{{segment.startTime}} - {{segment.endTime}}</p>
+				      <p>{{segment.segmentDescription}}</p>
+				    </a>
+				 </div>
+
+			</div>
+		</div>
+
 
 </div>
 
@@ -88,6 +106,25 @@
 		  });
 		
 		  p.on('segments.ready', function(){
+
+		  	var segmentsList = new Vue({
+			      el:'#segments-list', 
+			      data: {
+			      	segments: <?php echo $segments_json; ?>, 
+			        //segments: p.segments.getSegments(),
+			        currentTime: 0
+			      }, 
+			      methods: {
+			        seekToSegment: function(segment){
+			          console.log(segment)
+			          p.time.setCurrentTime(parseFloat(segment.startTime)); 
+			        }
+			      }
+			 })
+
+		  	audiography.audioElement.addEventListener('timeupdate', function(){
+		      segmentsList.currentTime = p.time.getCurrentTime(); 
+		    })
 
 
 		  	console.log(p.segments.getSegments()); 
