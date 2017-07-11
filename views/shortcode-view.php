@@ -110,6 +110,12 @@
 
 		  }); 
 
+		  console.log(existingSegments); 
+
+		  existingSegments.sort(function(a, b){
+		  	return parseInt(a.startTime) -  parseInt(b.startTime); 
+		  }); 
+
 
 		  var p = Peaks.init({
 
@@ -126,7 +132,7 @@
 		  	var segmentsList = new Vue({
 			      el:'#segments-list', 
 			      data: {
-			      	segments: <?php echo $segments_json; ?>, 
+			      	segments: existingSegments, 
 			        //segments: p.segments.getSegments(),
 			        currentTime: 0
 			      }, 
