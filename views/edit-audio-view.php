@@ -143,10 +143,6 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 
 		<?php echo sprintf('<a class="btn btn-danger" href="%s/wp-admin/admin.php?page=vcu_altlab_audiography&action=delete&id=%s&segmentId=%s"><span class="glyphicon glyphicon-pencil"></span> Delete Segment</a>', get_site_url(), $selected_audiographic['id'], $segment['id']); ?>	
 
-<!-- 		<a href="/wp-admin/admin.php?page=vcu_altlab_audiography&action=edit&id=<?php echo $selected_audiographic['id'] ?>&segmentId=<?php echo $segment['id']; ?>" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit Segment</a>
-
-		 <a href="/wp-admin/admin.php?page=vcu_altlab_audiography&action=delete&id=<?php echo $selected_audiographic['id'] ?>&segmentId=<?php echo $segment['id']; ?>" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete Segment</a> -->
-
 
 		</div>
 		<?php endforeach; ?>
