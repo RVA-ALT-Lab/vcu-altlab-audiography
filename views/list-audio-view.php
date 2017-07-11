@@ -14,8 +14,8 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 	<p>ID: <?php echo $value['id'] ?></p>
 	<p>URL: <?php echo $value['media_url'] ?></p>
 	<p>Shortcode: [audiographic id=<?php echo $value['id']; ?>]</p>
-	<?php echo sprintf('<a class="btn btn-primary" href="/wp-admin/admin.php?page=vcu_altlab_audiography&action=edit&id=%s"><span class="glyphicon glyphicon-pencil"></span> Edit This File</a>', $value['id']) ?>
-	<?php echo sprintf('<a class="btn btn-danger" href="/wp-admin/admin.php?page=vcu_altlab_audiography&action=delete&id=%s"><span class="glyphicon glyphicon-trash"></span> Delete This File</a>', $value['id']) ?>
+	<?php echo sprintf('<a class="btn btn-primary" href="<?php get_site_url(); ?>/wp-admin/admin.php?page=vcu_altlab_audiography&action=edit&id=%s"><span class="glyphicon glyphicon-pencil"></span> Edit This File</a>', $value['id']) ?>
+	<?php echo sprintf('<a class="btn btn-danger" href="%s/wp-admin/admin.php?page=vcu_altlab_audiography&action=delete&id=%s"><span class="glyphicon glyphicon-trash"></span> Delete This File</a>', get_site_url(), $value['id']) ?>
 
 </div>
 <?php endforeach; ?>

@@ -17,7 +17,7 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 </table>
 
 
-<a href="/wp-admin/admin.php?page=vcu_altlab_audiography&action=delete&id=<?php echo $audiographic_id; ?>&confirm=true" class="btn btn-block btn-danger">Yes, Delete This Audiographic</a>
+<a href="<?php get_site_url(); ?>/wp-admin/admin.php?page=vcu_altlab_audiography&action=delete&id=<?php echo $audiographic_id; ?>&confirm=true" class="btn btn-block btn-danger">Yes, Delete This Audiographic</a>
 
 <?php endif; ?>
 <?php if($deleted_successful): ?>
@@ -26,7 +26,7 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 	</div>
 
 
-	<a href="/wp-admin/admin.php?page=vcu_altlab_audiography" class="btn btn-primary">Click here to see all audiographics <span class="glyphicon glyphicon-home"></span> </a>
+	<a href="<?php get_site_url(); ?>/wp-admin/admin.php?page=vcu_altlab_audiography" class="btn btn-primary">Click here to see all audiographics <span class="glyphicon glyphicon-home"></span> </a>
 <?php endif; ?>
 
 
