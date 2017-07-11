@@ -32,7 +32,8 @@ if (isset($_POST['edit-segment-submitted']) && $_POST['edit-segment-submitted'] 
 
 	update_option('audiography_plugin_audiographic_' . $audiographic_id, $segment_options ); 
 
-} else if (isset($_GET['id']) && isset($_GET['segmentId'])){
+}  
+if (isset($_GET['id']) && isset($_GET['segmentId'])){
 
 	$options = get_option('audiography_plugin'); 
 

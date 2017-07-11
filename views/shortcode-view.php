@@ -2,6 +2,8 @@
 <div class="wrap">
 
 
+
+<h3><?php echo $selected_audiographic['name']; ?></h3>
 <?php echo sprintf('<audio id="audiographic-source"> <source src="%s"></source></audio>', $selected_audiographic['media_url']) ?>
 		<div id="custom-audio-controls">
 			<div class="btn btn-default" id="seek-backward-button">

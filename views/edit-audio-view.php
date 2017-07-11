@@ -4,14 +4,17 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 
 <div class="wrap">
 
-<h2><?php echo $selected_audiographic['name'] ?></h2>
 <table class="table">
 	<tr>
-		<td>ID</td>
+		<th>Name</th>
+		<td><?php echo $selected_audiographic['name'] ?></td>
+	</tr>
+	<tr>
+		<th>ID</th>
 		<td><?php echo $selected_audiographic['id'] ?></td>
 	</tr>
 	<tr>
-		<td>Media URL</td>
+		<th>Media URL</th>
 		<td>
 		<?php echo sprintf('<a href="%s">%s</a>', $selected_audiographic['media_url'], $selected_audiographic['media_url']) ?>
 		</td>
@@ -42,59 +45,107 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 		</div>
 
 <br>
-<div id="audiographic-waveform"></div>
+	<div id="audiographic-waveform"></div>
 <br>
 <button type="button" class="btn btn-default" id="add-segment"><span class="glyphicon glyphicon-plus"></span> Add Segment</button>
-<button type="button" class="btn btn-default" id="add-point"><span class="glyphicon glyphicon-plus"></span> Add Point</button>
+<!-- <button type="button" class="btn btn-default" id="add-point"><span class="glyphicon glyphicon-plus"></span> Add Point</button> -->
+<br>
+<br>
 
-<div id="new-segment-form">
+<div id="new-segment-form" style="display: none; ">
 	<form name="new-segment" id="new-segment" method="post">
+		<div class="row">
+		<div class="col-lg-4">
 		<input type="hidden" name="edit-audio-submitted" id="edit-audio-submitted" value="Y">
 		<input type="hidden" name="audiographic-id" value="<?php echo $selected_audiographic['id'] ?>">
-		<label>Segment Title</label>
+		<div class="form-group">
+			<label>Segment Title</label>
+			<input type="text" name="segment-name" id="segment-name" class="form-control">
+		</div>
 		<br>
-		<input type="text" name="segment-name" id="segment-name" class=".regular-text">
-		<br>
-		<label for="beginning-time">Beginning Time</label>
-		<p id="beginning-time-display">{{startTime}}</p>
-		<input type="hidden" name="beginning-time" v-model="startTime">
-		<label for="ending-time">Ending Time</label>
-		<p id="ending-time-display">{{endTime}}</p>
-		<input type="hidden" name="ending-time" v-model="endTime">
+		<div class="form-group">
+			<label for="beginning-time">Beginning Time (in seconds)</label>
+			<span class="help-block">Use the sliders on the waveform to edit the start time for this segment.</span>
+			<input type="text"  name="beginning-time" class="form-control" v-model="startTime" readonly="readonly">
+		</div>
+		<div class="form-group">
+			<label for="ending-time">Ending Time (in seconds)</label>
+			<input type="text" class="form-control" name="ending-time" v-model="endTime" readonly="readonly">	
+		</div>
+		
 		<label for="color">Color</label>
-		<input type="color" name="color" v-model="color">
-		<p>{{color}}</p>
-		<input type="hidden" name="segment-id" id="segment-id" v-model="segmentId">
-		<p>{{segmentId}}</p>
-
-		<?php wp_editor('', 'segment-description', array('textarea_name' => 'segment-description')); ?>
-
-		<?php submit_button('Submit');  ?>
-
+		<div class="radio">
+			<label for='red'>
+			<input type="radio" name="red" value="#FF0000" v-model="color">
+			Red</label>
+		</div>
+		<div class="radio">
+			<label for='green'>
+			<input type="radio" name="green" value="#008000" v-model="color">
+			Green</label>
+		</div>
+		<div class="radio">
+			<label for='blue'>
+			<input type="radio" name="blue" value="#0000FF" v-model="color">
+			Blue</label>
+		</div>
+		<div class="radio">
+			<label for='yellow'>
+			<input type="radio" name="yellow" value="#FFFF00" v-model="color">
+			Yellow</label>
+		</div>
+		<div class="radio">
+			<label for='orange'>
+			<input type="radio" name="orange" value="#FFA500" v-model="color">
+			Orange</label>
+		</div>
+		<div class="radio">
+			<label for='purple'>
+			<input type="radio" name="purple" value="#800080" v-model="color">
+			Purple</label>
+		</div>	
+		<input type="hidden" name="color" v-model="color"> 
+		<div class="form-group">
+			<label for="segment-id">Segment ID</label>
+			<input type="text" class="form-control" name="segment-id" id="segment-id" v-model="segmentId" readonly="readonly">
+		</div>
+		</div>
+		<div class="col-lg-8">
+			<div class="form-group">
+			<label>Segment Description</label>
+				<?php wp_editor('', 'segment-description', array('textarea_name' => 'segment-description', 'textarea_rows' => 25)); ?>
+			</div>	
+		</div>
+		<div class="col-lg-12">
+			<?php submit_button('Submit');  ?>
+		</div>
+		</div>
 	</form>
 </div>
 
-<button type="button" id="log-vue">Log Vue</button>
-
+<div class="row">
+<div class="col-lg-12">
 <h3>Existing Segments</h3>
 
 
-<div class="list-group">
+	<div class="list-group">
 
 
-<?php if($selected_audiographic_segments): ?>
-	<?php foreach($selected_audiographic_segments as $segment): ?>
+	<?php if($selected_audiographic_segments): ?>
+		<?php foreach($selected_audiographic_segments as $segment): ?>
 
-	<div class="list-group-item">
-	<h4><?php  echo $segment['segmentName'] ?></h4>
-	<p><?php  echo $segment['startTime'] ?> to <?php  echo $segment['endTime'] ?></p>
-	<p><?php echo stripslashes($segment['segmentDescription']); ?></p>
-	<a href="/wp-admin/admin.php?page=vcu_altlab_audiography&action=edit&id=<?php echo $selected_audiographic['id'] ?>&segmentId=<?php echo $segment['id']; ?>" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit Segment</a>
-	<a href="" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete Segment</a>
+		<div class="list-group-item">
+		<h4><?php  echo $segment['segmentName']; ?></h4>
+		<p><?php  echo $segment['startTime']; ?> to <?php  echo $segment['endTime']; ?></p>
+		<p><?php echo stripslashes($segment['segmentDescription']); ?></p>
+		<a href="/wp-admin/admin.php?page=vcu_altlab_audiography&action=edit&id=<?php echo $selected_audiographic['id'] ?>&segmentId=<?php echo $segment['id']; ?>" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit Segment</a>
+		<a href="/wp-admin/admin.php?page=vcu_altlab_audiography&action=delete&id=<?php echo $selected_audiographic['id'] ?>&segmentId=<?php echo $segment['id']; ?>" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete Segment</a>
+		</div>
+		<?php endforeach; ?>
+	<?php endif; ?>
+		
 	</div>
-	<?php endforeach; ?>
-<?php endif; ?>
-	
+</div>
 </div>
 
 
@@ -185,24 +236,38 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 		  	var guid = audiography.generateUniqueId(1, 1000); 
 		  	console.log(guid); 
 
-		  	p.segments.add({
-		  		startTime: newSegment.startTime, 
-		  		endTime: newSegment.endTime,
-		  		color: newSegment.color, 
-		  		editable: true,
-		  		id: newSegment.segmentId, 
+		  	// p.segments.add({
+		  	// 	startTime: newSegment.startTime, 
+		  	// 	endTime: newSegment.endTime,
+		  	// 	color: newSegment.color, 
+		  	// 	editable: true,
+		  	// 	id: newSegment.segmentId, 
 
-		  	})
+		  	// })
+		  	document.querySelector('#add-segment').addEventListener('click', function(){
+				p.segments.add({
+			  		startTime: newSegment.startTime, 
+			  		endTime: newSegment.endTime,
+			  		color: newSegment.color, 
+			  		editable: true,
+			  		id: newSegment.segmentId, 
 
-		  	console.log(p.segments.getSegments()); 
-		  	document.querySelector('#log-vue').addEventListener('click', function(){
-		  		console.log(newSegment.color); 
-		  	})
+			  	})
+			  	document.querySelector('#new-segment-form').style.display ='block'; 
+		 
+		  	}) 
+		  	
 
 		  	//Sync up audio controls 
 		  	 //hook up custom audio controls to UI
-		    document.querySelector('#zoom-out-button').addEventListener('click', p.zoom.zoomOut)
-		    document.querySelector('#zoom-in-button').addEventListener('click', p.zoom.zoomIn)
+		    document.querySelector('#zoom-out-button').addEventListener('click', function(){
+		    	document.querySelector('.zoom-container').style.display = 'none'; 
+		    }); 
+
+		    document.querySelector('#zoom-in-button').addEventListener('click', function(){
+		    	document.querySelector('.zoom-container').style.display = 'block'; 
+		    }); 
+
 		    document.querySelector('#seek-forward-button').addEventListener('click', audiography.seekAudioForward)
 		    document.querySelector('#seek-backward-button').addEventListener('click', audiography.seekAudioBackward)
 		    document.querySelector('#play-button').addEventListener('click', audiography.playAudio)
