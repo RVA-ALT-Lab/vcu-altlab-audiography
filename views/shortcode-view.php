@@ -5,15 +5,12 @@
 
 <h3><?php echo $selected_audiographic['name']; ?></h3>
 <?php echo sprintf('<audio id="audiographic-source"> <source src="%s"></source></audio>', $selected_audiographic['media_url']) ?>
-		<div id="custom-audio-controls">
+		<div id="custom-audio-controls" class="btn-group btn-group-lg" role="group">
 			<div class="btn btn-default" id="seek-backward-button">
 				<span class="glyphicon glyphicon-backward"></span>
 			</div>
 			<div class="btn btn-default" id="play-button">
 				<span class="glyphicon glyphicon-play"></span>
-			</div>
-			<div class="btn btn-default" id="pause-button">
-				<span class="glyphicon glyphicon-pause"></span>
 			</div>
 			<div class="btn btn-default" id="seek-forward-button">
 				<span class="glyphicon glyphicon-forward"></span>
@@ -26,6 +23,7 @@
 			</div>
 		</div>
 
+<br>
 <br>
 <div id="audiographic-waveform">
 	
@@ -87,12 +85,14 @@
 		    playAudio: function(){
 		      if(audiography.audioElement.paused){
 		        audiography.audioElement.play()
-		      }
-		    }, 
-		    pauseAudio: function(){
-		      if(!audiography.audioElement.paused){
+		      } else if(!audiography.audioElement.paused){
 		        audiography.audioElement.pause()
 		      }
+
+		      console.log(this); 
+		      var button = document.querySelector('#play-button'); 
+		      button.children[0].classList.toggle('glyphicon-play');
+		      button.children[0].classList.toggle('glyphicon-pause'); 
 		    }, 
 		    seekAudioForward: function(){
 		      console.log('clicked')
@@ -188,7 +188,12 @@
 		    document.querySelector('#seek-forward-button').addEventListener('click', audiography.seekAudioForward)
 		    document.querySelector('#seek-backward-button').addEventListener('click', audiography.seekAudioBackward)
 		    document.querySelector('#play-button').addEventListener('click', audiography.playAudio)
-		    document.querySelector('#pause-button').addEventListener('click', audiography.pauseAudio)
+		    window.addEventListener('keydown', function(event){
+		    	if(event.keyCode == 32){
+		    		event.preventDefault(); 
+		    		audiography.playAudio(); 
+		    	}
+		    })
 
 
 		  });
