@@ -30,14 +30,14 @@
 <div id="audiographic-waveform">
 	
 </div>
-<div>
-<?php for($i = 0; $i < count($selected_audiographic_segments); $i++): ?>
-<div id="<?php echo $selected_audiographic_segments[$i]['id']; ?>">
+<div class="hidden-content">
+	<?php for($i = 0; $i < count($selected_audiographic_segments); $i++): ?>
+	<div id="<?php echo $selected_audiographic_segments[$i]['id']; ?>">
 
-		<?php echo $selected_audiographic_segments[$i]['segmentDescription']; ?>
-		
-</div>
-<?php endfor; ?> 	
+			<?php echo $selected_audiographic_segments[$i]['segmentDescription']; ?>
+			
+	</div>
+	<?php endfor; ?> 	
 </div>
 <div class="col-lg-12" id="segments-list">
 			<h3>Existing Segments</h2>
@@ -115,7 +115,8 @@
 		  var existingSegments = <?php echo $segments_json; ?>; 
 		  existingSegments.forEach(function(segment){
 		  	segment.startTime = parseInt(segment.startTime); 
-		  	segment.endTime = parseInt(segment.endTime); 
+		  	segment.endTime = parseInt(segment.endTime);
+		  	segment.segmentDescription = document.getElementById(segment.id).innerHTML;  
 
 		  }); 
 
