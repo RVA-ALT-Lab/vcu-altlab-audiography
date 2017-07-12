@@ -149,6 +149,7 @@ function vcu_altlab_audiography_shortcode($atts = [], $content = null){
 		}
 
 		$selected_audiographic_segments = get_option('audiography_plugin_audiographic_' . $selected_audiographic['id']); 
+		
 		foreach ($selected_audiographic_segments as &$segment) {
 			$segment['segmentDescription'] = stripslashes($segment['segmentDescription']); 
 		}
@@ -157,7 +158,9 @@ function vcu_altlab_audiography_shortcode($atts = [], $content = null){
 
 		require_once(plugin_dir_path(__FILE__) . '/views/shortcode-view.php'); 
 
-		return ob_get_clean();  
+		$output = ob_get_clean(); 
+		$run_shortcodes = do_shortcode($output); 
+		return $run_shortcodes;  
 }
 
 

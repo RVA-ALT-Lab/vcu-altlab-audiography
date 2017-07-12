@@ -113,7 +113,7 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 		<div class="col-lg-8">
 			<div class="form-group">
 			<label>Segment Description</label>
-				<?php wp_editor('', 'segment-description', array('textarea_name' => 'segment-description', 'textarea_rows' => 25)); ?>
+				<?php wp_editor('', 'segment-description', array('textarea_name' => 'segment-description', 'textarea_rows' => 25, 'wpautop' => false)); ?>
 			</div>	
 		</div>
 		<div class="col-lg-12">

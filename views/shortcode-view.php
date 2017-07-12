@@ -30,6 +30,15 @@
 <div id="audiographic-waveform">
 	
 </div>
+<div>
+<?php for($i = 0; $i < count($selected_audiographic_segments); $i++): ?>
+<div id="<?php echo $selected_audiographic_segments[$i]['id']; ?>">
+
+		<?php echo $selected_audiographic_segments[$i]['segmentDescription']; ?>
+		
+</div>
+<?php endfor; ?> 	
+</div>
 <div class="col-lg-12" id="segments-list">
 			<h3>Existing Segments</h2>
 			<p>Click on one of the segments from the list below to skip to the beginning of that segment.</p>
