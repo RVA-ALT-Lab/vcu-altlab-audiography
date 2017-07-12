@@ -1,10 +1,24 @@
 
-<div class="wrap">
+<div class="row">
+<div class="col-lg-12">
+	<h3><?php echo $selected_audiographic['name']; ?></h3>
+	<?php echo sprintf('<audio id="audiographic-source"> <source src="%s"></source></audio>', $selected_audiographic['media_url']) ?>
+	<div id="audiographic-waveform">
+		
+	</div>
+	<div class="hidden-content">
+		<?php for($i = 0; $i < count($selected_audiographic_segments); $i++): ?>
+		<div id="<?php echo $selected_audiographic_segments[$i]['id']; ?>">
 
-
-
-<h3><?php echo $selected_audiographic['name']; ?></h3>
-<?php echo sprintf('<audio id="audiographic-source"> <source src="%s"></source></audio>', $selected_audiographic['media_url']) ?>
+				<?php echo $selected_audiographic_segments[$i]['segmentDescription']; ?>
+				
+		</div>
+		<?php endfor; ?> 	
+	</div>
+</div>
+<br>
+<div class="col-lg-12" id="segments-list">
+<br>
 		<div id="custom-audio-controls" class="btn-group btn-group-lg" role="group">
 			<div class="btn btn-default" id="seek-backward-button">
 				<span class="glyphicon glyphicon-backward"></span>
@@ -15,31 +29,10 @@
 			<div class="btn btn-default" id="seek-forward-button">
 				<span class="glyphicon glyphicon-forward"></span>
 			</div>
-			<div class="btn btn-default" id="zoom-in-button">
+			<div class="btn btn-default" id="zoom-button">
 				<span class="glyphicon glyphicon-zoom-in"></span>
 			</div>
-			<div class="btn btn-default" id="zoom-out-button">
-				<span class="glyphicon glyphicon-zoom-out"></span>
-			</div>
 		</div>
-
-<br>
-<br>
-<div id="audiographic-waveform">
-	
-</div>
-<div class="hidden-content">
-	<?php for($i = 0; $i < count($selected_audiographic_segments); $i++): ?>
-	<div id="<?php echo $selected_audiographic_segments[$i]['id']; ?>">
-
-			<?php echo $selected_audiographic_segments[$i]['segmentDescription']; ?>
-			
-	</div>
-	<?php endfor; ?> 	
-</div>
-<div class="col-lg-12" id="segments-list">
-			<h3>Existing Segments</h2>
-			<p>Click on one of the segments from the list below to skip to the beginning of that segment.</p>
 			<h5>
 				Current Time: {{currentTime}} 
 			</h5>

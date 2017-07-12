@@ -24,12 +24,10 @@ document.addEventListener('DOMContentLoaded', function(event){
 		    }, 
 		    seekAudioBackward: function(){
 		      audiography.audioElement.currentTime = (audiography.audioElement.currentTime - (audiography.audioElement.duration / 10))
+		    },
+		    toggleZoom: function(){
+		    	console.log(this); 
 		    }, 
-		    exportSegments: function(){
-		      console.log('clicked'); 
-		        var segments = p.segments.getSegments(); 
-		        document.querySelector('#export-area').innerText = segments; 
-		    }
 		  }
 
 		  var myAudioContext = new AudioContext(); 
@@ -42,7 +40,6 @@ document.addEventListener('DOMContentLoaded', function(event){
 
 		  }); 
 
-		  console.log(existingSegments); 
 
 		  existingSegments.sort(function(a, b){
 		  	return parseInt(a.startTime) -  parseInt(b.startTime); 
@@ -101,12 +98,9 @@ document.addEventListener('DOMContentLoaded', function(event){
 		    })
 
 
-		  	console.log(p.segments.getSegments()); 
-
 		  	//Sync up audio controls 
 		  	 //hook up custom audio controls to UI
-		    document.querySelector('#zoom-out-button').addEventListener('click', p.zoom.zoomOut)
-		    document.querySelector('#zoom-in-button').addEventListener('click', p.zoom.zoomIn)
+		    document.querySelector('#zoom-button').addEventListener('click', audiography.toggleZoom)
 		    document.querySelector('#seek-forward-button').addEventListener('click', audiography.seekAudioForward)
 		    document.querySelector('#seek-backward-button').addEventListener('click', audiography.seekAudioBackward)
 		    document.querySelector('#play-button').addEventListener('click', audiography.playAudio)
