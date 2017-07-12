@@ -128,7 +128,7 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 <h3>Existing Segments</h3>
 
 
-	<div class="list-group">
+	<div class="list-group" id="existing-segments">
 
 
 	<?php if($selected_audiographic_segments): ?>

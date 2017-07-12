@@ -57,7 +57,7 @@
 				</div>
 				<div class="col-lg-9">
 					<div class="panel panel-default">
-						<div class="panel-body">
+						<div class="panel-body" id="current-segment-description">
 							<div v-if="currentSegment" v-html="currentSegment.segmentDescription">
 							</div>
 						</div>

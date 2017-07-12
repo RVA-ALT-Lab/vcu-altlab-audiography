@@ -113,6 +113,7 @@ function vcu_altlab_audiography_load_admin_scripts($hook){
 		return; 
 	}
 	wp_enqueue_style('bootstrap-css', plugins_url('/css/bootstrap.css', __FILE__)); 
+	wp_enqueue_style('custom-css', plugins_url('/css/custom.css', __FILE__));
 	wp_enqueue_script('peak-js', plugins_url('/js/peaks.js', __FILE__)); 
 	wp_enqueue_script('vue-js', plugins_url('/js/vue.js', __FILE__));  
 
