@@ -38,21 +38,30 @@
 			</h5>
 			<div>
 			<div class="row">
-				<div class="col-lg-3">
-					<div class="list-group">
-				    <div v-bind:class="{active: (segment.startTime < currentTime && segment.endTime > currentTime), 'list-group-item': true }" v-for="segment in segments">
-				      <a v-on:click="seekToSegment(segment)">
+				<div class="col-lg-3 col-md-3">
+				<div class="list-group hidden-sm hidden-xs">
+				      <a v-bind:class="{active: (segment.startTime < currentTime && segment.endTime > currentTime), 'list-group-item': true }" v-for="segment in segments" v-on:click="seekToSegment(segment)">
 				      <h5>{{segment.segmentName }}</h5>
-				      <button type="button" v-on:click="seekToNextSegment(segment)">Next</button>
-				      <button type="button" v-on:click="seekToPreviousSegment(segment)">Previous</button>
 				      <p>{{Math.floor(segment.startTime)}} - {{Math.floor(segment.endTime)}}</p>
 				      </a>
-				    </div>
+				 </div>
+
+				 <div class="list-group hidden-md hidden-lg">
+				    
+					 <div class="btn-group btn-group-justified">
+					 	<a class="btn btn-primary" v-on:click="seekToPreviousSegment(currentSegment)">
+					 		<span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Previous Segment
+					 	</a>
+					 	<a class="btn btn-primary" v-on:click="seekToNextSegment(currentSegment)">
+					 		Next Segment&nbsp;<span class="glyphicon glyphicon-chevron-right"></span>
+					 	</a>
+					 </div>
 				 </div>
 				</div>
-				<div class="col-lg-9">
+				<div class="col-lg-9 col-md-9">
 					<div class="panel panel-default">
 						<div class="panel-body" id="current-segment-description">
+							<h2 v-if="currentSegment">{{currentSegment.segmentName}}&nbsp;({{currentSegment.startTime}} - {{currentSegment.endTime}})</h2>
 							<div v-if="currentSegment" v-html="currentSegment.segmentDescription">
 							</div>
 						</div>

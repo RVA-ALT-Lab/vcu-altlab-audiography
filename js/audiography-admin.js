@@ -1,88 +1,22 @@
-<?php 
-require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
-?>
-
-<div class="wrap">
-
-<h2><?php echo $selected_audiographic['name'] ?></h2>
-<table class="table">
-	<tr>
-		<td>ID</td>
-		<td><?php echo $selected_audiographic['id'] ?></td>
-	</tr>
-	<tr>
-		<td>Media URL</td>
-		<td>
-		<?php echo sprintf('<a href="%s">%s</a>', $selected_audiographic['media_url'], $selected_audiographic['media_url']) ?>
-		</td>
-	</tr>
-</table>
-<br>
-
-<?php echo sprintf('<audio id="audiographic-source"> <source src="%s"></source></audio>', $selected_audiographic['media_url']) ?>
-		<div id="custom-audio-controls">
-			<div class="btn btn-default" id="seek-backward-button">
-				<span class="glyphicon glyphicon-backward"></span>
-			</div>
-			<div class="btn btn-default" id="play-button">
-				<span class="glyphicon glyphicon-play"></span>
-			</div>
-			<div class="btn btn-default" id="pause-button">
-				<span class="glyphicon glyphicon-pause"></span>
-			</div>
-			<div class="btn btn-default" id="seek-forward-button">
-				<span class="glyphicon glyphicon-forward"></span>
-			</div>
-			<div class="btn btn-default" id="zoom-in-button">
-				<span class="glyphicon glyphicon-zoom-in"></span>
-			</div>
-			<div class="btn btn-default" id="zoom-out-button">
-				<span class="glyphicon glyphicon-zoom-out"></span>
-			</div>
-		</div>
-
-<br>
-<div id="audiographic-waveform"></div>
-<br>
-
-<div id="edit-segment-form">
-	<form name="edit-segment" id="edit-segment" method="post">
-		<input type="hidden" name="edit-segment-submitted" id="edit-segment-submitted" value="Y">
-		<input type="hidden" name="audiographic-id" value="<?php echo $selected_audiographic['id'] ?>">
-		<label>Segment Title</label>
-		<br>
-		<input type="text" name="segment-name" id="segment-name" v-model="segmentName" class=".regular-text">
-		<br>
-		<label for="beginning-time">Beginning Time</label>
-		<p id="beginning-time-display">{{startTime}}</p>
-		<input type="hidden" name="beginning-time" v-model="startTime">
-		<label for="ending-time">Ending Time</label>
-		<p id="ending-time-display">{{endTime}}</p>
-		<input type="hidden" name="ending-time" v-model="endTime">
-		<label for="color">Color</label>
-		<input type="color" name="color" v-model="color">
-		<p>{{color}}</p>
-		<input type="hidden" name="segment-id" id="segment-id" v-model="segmentId">
-		<p>{{segmentId}}</p>
-
-		<?php wp_editor($selcted_segment['segmentDescription'], 'segment-description', array('textarea_name' => 'segment-description')); ?>
-
-		<?php submit_button('Submit');  ?>
-
-	</form>
-</div>
-
-</div>
-
-<script type="text/javascript">
-	var existingSegments = <?php echo $segments_json; ?>; 
-</script>
-
-<!-- <script type="text/javascript">
-	document.addEventListener('DOMContentLoaded', function(event){
+//either sets this equal to JSON from PHP or an empty array
+var existingSegments = existingSegments || []; 
 
 
-		(function(Peaks){
+//Perform this check of the query string to determine which DOM elements are present 
+// for Peaks and Vue to bind to
+var queryString = location.search; 
+var isEditingAudiographic = ( queryString.includes('action=edit') && queryString.includes('id') && !queryString.includes('segmentId') ); 
+var isEditingSegment = ( queryString.includes('action=edit') && queryString.includes('segmentId') ); 
+
+
+console.log(isEditingSegment + " : " + isEditingAudiographic); 
+
+
+document.addEventListener('DOMContentLoaded', function(event){
+
+		(function(Peaks, existingSegments){
+			console.log(isEditingAudiographic); 
+			console.log(isEditingSegment); 
 		    var audiography = {
 		    audioElement: document.querySelector('#audiographic-source'), 	
 		    playAudio: function(){
@@ -193,9 +127,5 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 
 
 
-		})(peaks);
+		})(peaks, existingSegments);
 	}); 
-
-
-
-</script> -->

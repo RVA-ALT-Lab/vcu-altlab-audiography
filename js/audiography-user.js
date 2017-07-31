@@ -58,6 +58,10 @@ document.addEventListener('DOMContentLoaded', function(event){
 
 					      		});
 
+					      		if (currentSegment == undefined){
+					      			currentSegment = segments[0]; 
+					      		}
+
 					      		return currentSegment; 
 
 					      	}
@@ -113,6 +117,9 @@ document.addEventListener('DOMContentLoaded', function(event){
 				    	}
 				    })
 
+					audiography.toggleZoom(); 
+					window.addEventListener('resize', audiography.toggleZoom);   
+
 
 				  });
 		    }, 	
@@ -123,7 +130,6 @@ document.addEventListener('DOMContentLoaded', function(event){
 		        audiography.audioElement.pause()
 		      }
 
-		      console.log(this); 
 		      var button = document.querySelector('#play-button'); 
 		      button.children[0].classList.toggle('glyphicon-play');
 		      button.children[0].classList.toggle('glyphicon-pause'); 
@@ -132,16 +138,18 @@ document.addEventListener('DOMContentLoaded', function(event){
 
 		    },  
 		    seekAudioForward: function(){
-		      console.log('clicked')
-		      console.log(audiography.audioElement.duration)
 		      audiography.audioElement.currentTime = (audiography.audioElement.currentTime + (audiography.audioElement.duration / 10))
-		      console.log(audiography.audioElement.currentTime); 
 		    }, 
 		    seekAudioBackward: function(){
 		      audiography.audioElement.currentTime = (audiography.audioElement.currentTime - (audiography.audioElement.duration / 10))
 		    },
 		    toggleZoom: function(){
-		    	console.log(this); 
+		    	var container = document.querySelector('.zoom-container'); 
+		    	if (window.innerWidth >= 792){
+		    		container.style.display = 'block'; 
+		    	} else {
+		    		container.style.display = 'none'; 
+		    	}
 		    }, 
 		  }
 
@@ -156,9 +164,8 @@ document.addEventListener('DOMContentLoaded', function(event){
 			}
 
 		// }); 
-		//End event listener for when audio is loaded  
-
-
+		//End event listener for when audio is loaded
+		//Call once after everything has loaded to hide zoom on XS screens
 
 		})(peaks);
 	}); 
