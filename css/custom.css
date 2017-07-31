@@ -10,3 +10,9 @@
 /*.zoom-container {
 	display: none; 
 }*/
+
+@media(max-width: 720px){
+/*	.zoom-container {
+		display: none; 
+	}*/
+}

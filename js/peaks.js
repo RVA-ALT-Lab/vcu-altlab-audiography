@@ -18649,7 +18649,7 @@ module.exports = function (EventEmitter, Player, Waveform, mixins, KeyboardHandl
         if (opts.logger && typeof opts.logger !== 'function') {
             throw new TypeError('[Peaks.init] The `logger` option should be a function.');
         }
-        if (!opts.dataUri && !(opts.audioContext instanceof AudioContext)) {
+        if (!opts.dataUri &&  !(opts.audioContext instanceof AudioContext) ) {
             throw new TypeError('[Peaks.init] You must pass in an AudioContext to render waveform data or a dataUri.');
         }
         if (opts.dataUri && opts.audioContext) {
@@ -20067,9 +20067,12 @@ module.exports = function (WaveformData, webaudioBuilder, WaveformOverview, Wave
             }
         }
         if (!options.dataUri && options.audioContext) {
+            console.log("this is here to magically fix stuff")
+
             requestType = 'arraybuffer';
             uri = options.mediaElement.currentSrc || options.mediaElement.src;
             builder = webaudioBuilder;
+            console.log(uri)
         }
         if (!uri) {
             throw new Error('Unable to determine a compatible dataUri format for this browser.');
@@ -20085,7 +20088,7 @@ module.exports = function (WaveformData, webaudioBuilder, WaveformOverview, Wave
             if (this.readyState !== 4) {
                 return;
             }
-            if (this.status !== 200) {
+            if (this.status !== 200 && this.status !== 206) {
                 self.handleRemoteData(new Error('Unable to fetch remote data. HTTP Status ' + this.status));
                 return;
             }

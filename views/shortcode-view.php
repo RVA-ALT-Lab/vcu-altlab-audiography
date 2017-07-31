@@ -40,10 +40,14 @@
 			<div class="row">
 				<div class="col-lg-3">
 					<div class="list-group">
-				    <a v-bind:class="{active: (segment.startTime < currentTime && segment.endTime > currentTime), 'list-group-item': true }" v-for="segment in segments" v-on:click="seekToSegment(segment)">
+				    <div v-bind:class="{active: (segment.startTime < currentTime && segment.endTime > currentTime), 'list-group-item': true }" v-for="segment in segments">
+				      <a v-on:click="seekToSegment(segment)">
 				      <h5>{{segment.segmentName }}</h5>
+				      <button type="button" v-on:click="seekToNextSegment(segment)">Next</button>
+				      <button type="button" v-on:click="seekToPreviousSegment(segment)">Previous</button>
 				      <p>{{Math.floor(segment.startTime)}} - {{Math.floor(segment.endTime)}}</p>
-				    </a>
+				      </a>
+				    </div>
 				 </div>
 				</div>
 				<div class="col-lg-9">
