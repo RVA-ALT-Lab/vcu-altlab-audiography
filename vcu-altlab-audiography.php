@@ -112,11 +112,11 @@ function vcu_altlab_audiography_load_admin_scripts($hook){
 	if($hook !== 'toplevel_page_vcu_altlab_audiography'){
 		return; 
 	}
-	wp_enqueue_style('bootstrap-css', plugins_url('/css/bootstrap.css', __FILE__)); 
+	wp_enqueue_style('bootstrap-css', plugins_url('/css/bootstrap-custom.css', __FILE__)); 
 	wp_enqueue_style('custom-css', plugins_url('/css/custom.css', __FILE__));
-	//wp_enqueue_script('peak-js', plugins_url('/js/polyfill.js', __FILE__)); 
 	wp_enqueue_script('peak-js', plugins_url('/js/peaks.js', __FILE__), false, false, true); 
 	wp_enqueue_script('vue-js', plugins_url('/js/vue.js', __FILE__), false, false, true);  
+	wp_enqueue_script('audiography-class-js', plugins_url('/js/audiography-class.js', __FILE__), false, false, true);
 	wp_enqueue_script('audiography-admin-js', plugins_url('/js/audiography-admin.js', __FILE__), false, false, true); 
 }
 
@@ -124,11 +124,11 @@ add_action('admin_enqueue_scripts', 'vcu_altlab_audiography_load_admin_scripts' 
 
 function vcu_altlab_audiography_load_scripts($hook){
 	
-	wp_enqueue_style('bootstrap-css', plugins_url('/css/bootstrap.css', __FILE__)); 
-	wp_enqueue_style('custom-css', plugins_url('/css/custom.css', __FILE__)); 
-	//wp_enqueue_script('peak-js', plugins_url('/js/polyfill.js', __FILE__)); 
+	wp_enqueue_style('bootstrap-css', plugins_url('/css/bootstrap-custom.css', __FILE__)); 
+	wp_enqueue_style('custom-css', plugins_url('/css/custom.css', __FILE__));  
 	wp_enqueue_script('peak-js', plugins_url('/js/peaks.js', __FILE__), false, false, true); 
 	wp_enqueue_script('vue-js', plugins_url('/js/vue.js', __FILE__), false, false, true);
+	wp_enqueue_script('audiography-class-js', plugins_url('/js/audiography-class.js', __FILE__), false, false, true);
 	wp_enqueue_script('audiography-user-js', plugins_url('/js/audiography-user.js', __FILE__), false, false, true);  
 
 }

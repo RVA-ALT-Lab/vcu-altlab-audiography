@@ -47,25 +47,69 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 
 <div id="edit-segment-form">
 	<form name="edit-segment" id="edit-segment" method="post">
+	<div class="row">
+		<div class="col-lg-4">
 		<input type="hidden" name="edit-segment-submitted" id="edit-segment-submitted" value="Y">
 		<input type="hidden" name="audiographic-id" value="<?php echo $selected_audiographic['id'] ?>">
-		<label>Segment Title</label>
-		<br>
-		<input type="text" name="segment-name" id="segment-name" v-model="segmentName" class=".regular-text">
-		<br>
-		<label for="beginning-time">Beginning Time</label>
-		<p id="beginning-time-display">{{startTime}}</p>
-		<input type="hidden" name="beginning-time" v-model="startTime">
-		<label for="ending-time">Ending Time</label>
-		<p id="ending-time-display">{{endTime}}</p>
-		<input type="hidden" name="ending-time" v-model="endTime">
+		<div class="form-group">
+			<label>Segment Title</label>
+			<input type="text" name="segment-name" id="segment-name" v-model="segmentName" class="form-control">	
+		</div>
 		<label for="color">Color</label>
-		<input type="color" name="color" v-model="color">
-		<p>{{color}}</p>
-		<input type="hidden" name="segment-id" id="segment-id" v-model="segmentId">
-		<p>{{segmentId}}</p>
+		<div class="radio">
+			<label for='red'>
+			<input type="radio" name="red" value="#ff0000" v-model="color">
+			Red</label>
+		</div>
+		<div class="radio">
+			<label for='green'>
+			<input type="radio" name="green" value="#008000" v-model="color">
+			Green</label>
+		</div>
+		<div class="radio">
+			<label for='blue'>
+			<input type="radio" name="blue" value="#0000ff" v-model="color">
+			Blue <div class="color-swatch" style="background-color: #0000ff;"></div></label>
+		</div>
+		<div class="radio">
+			<label for='yellow'>
+			<input type="radio" name="yellow" value="#ffff00" v-model="color">
+			Yellow</label>
+		</div>
+		<div class="radio">
+			<label for='orange'>
+			<input type="radio" name="orange" value="#ffa500" v-model="color">
+			Orange</label>
+		</div>
+		<div class="radio">
+			<label for='purple'>
+			<input type="radio" name="purple" value="#800080" v-model="color">
+			Purple</label>
+		</div>	
+		<input type="hidden" name="color" v-model="color"> 
+		
+		<div class="form-group">
+			<label for="beginning-time">Beginning Time (in seconds)</label>
+			<span class="help-block">Use the sliders on the waveform to edit the start time for this segment.</span>
+			<input type="text"  name="beginning-time" class="form-control" v-model="startTime" readonly="readonly">
+		</div>
+		<div class="form-group">
+			<label for="ending-time">Ending Time (in seconds)</label>
+			<input type="text" class="form-control" name="ending-time" v-model="endTime" readonly="readonly">	
+		</div>
+		<div class="form-group">
+			<label for="segment-id">Segment ID</label>
+			<input type="text" class="form-control" name="segment-id" id="segment-id" v-model="segmentId" readonly="readonly">
+		</div>
+		</div>
+
+		
+		<div class="col-lg-8">
 
 		<?php wp_editor($selcted_segment['segmentDescription'], 'segment-description', array('textarea_name' => 'segment-description')); ?>
+		</div>
+
+		</div>
 
 		<?php submit_button('Submit');  ?>
 
@@ -77,125 +121,3 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 <script type="text/javascript">
 	var existingSegments = <?php echo $segments_json; ?>; 
 </script>
-
-<!-- <script type="text/javascript">
-	document.addEventListener('DOMContentLoaded', function(event){
-
-
-		(function(Peaks){
-		    var audiography = {
-		    audioElement: document.querySelector('#audiographic-source'), 	
-		    playAudio: function(){
-		      if(audiography.audioElement.paused){
-		        audiography.audioElement.play()
-		      }
-		    }, 
-		    pauseAudio: function(){
-		      if(!audiography.audioElement.paused){
-		        audiography.audioElement.pause()
-		      }
-		    }, 
-		    seekAudioForward: function(){
-		      console.log('clicked')
-		      console.log(audiography.audioElement.duration)
-		      audiography.audioElement.currentTime = (audiography.audioElement.currentTime + (audiography.audioElement.duration / 10))
-		      console.log(audiography.audioElement.currentTime); 
-		    }, 
-		    seekAudioBackward: function(){
-		      audiography.audioElement.currentTime = (audiography.audioElement.currentTime - (audiography.audioElement.duration / 10))
-		    }, 
-		    exportSegments: function(){
-		      console.log('clicked'); 
-		        var segments = p.segments.getSegments(); 
-		        document.querySelector('#export-area').innerText = segments; 
-		    }, 
-		    generateUniqueId: function(min, max){
-		    	return Math.floor(Math.random() * (max - min + 1)) + min; 
-			}
-		  }
-
-		  var myAudioContext = new AudioContext(); 
-
-		  // var existingSegments = <?php echo $segments_json; ?>; 
-
-		  console.log(existingSegments); 
-
-		  if (existingSegments !== null 
-		  	&& existingSegments !== undefined 
-		  	&& existingSegments !== false){
-
-		  	if (typeof exportSegments == 'array'){
-			  existingSegments.forEach(function(segment){
-			  	segment.startTime = parseInt(segment.startTime); 
-			  	segment.endTime = parseInt(segment.endTime); 
-			 });
-			} else {
-				existingSegments = [existingSegments]; 
-			}
-
-		  } else {
-		  	existingSegments = []; 
-		  }
-
-		  var p = Peaks.init({
-
-		  	container: document.querySelector('#audiographic-waveform'), 
-		  	mediaElement: document.querySelector('#audiographic-source'), 
-		  	audioContext: myAudioContext, 
-		  	segments: existingSegments, 
-
-
-		  });
-
-		  var newSegment = new Vue({
-		  		el: '#edit-segment-form',
-		  		data: {
-		  			startTime: existingSegments[0].startTime, 
-		  			endTime: existingSegments[0].endTime, 
-		  			color: existingSegments[0].color,
-		  			segmentId: existingSegments[0].id, 
-		  			segmentName: existingSegments[0].segmentName,  
-
-		  		}, 
-		  		methods: {
-
-		  		}
-		  	}); 
-		
-		  p.on('segments.ready', function(){
-
-		  	p.segments.add({
-		  		startTime: newSegment.startTime, 
-		  		endTime: newSegment.endTime,
-		  		color: newSegment.color, 
-		  		editable: true,
-		  		id: newSegment.segmentId, 
-
-		  	})
-
-		  	//Sync up audio controls 
-		  	 //hook up custom audio controls to UI
-		    document.querySelector('#zoom-out-button').addEventListener('click', p.zoom.zoomOut)
-		    document.querySelector('#zoom-in-button').addEventListener('click', p.zoom.zoomIn)
-		    document.querySelector('#seek-forward-button').addEventListener('click', audiography.seekAudioForward)
-		    document.querySelector('#seek-backward-button').addEventListener('click', audiography.seekAudioBackward)
-		    document.querySelector('#play-button').addEventListener('click', audiography.playAudio)
-		    document.querySelector('#pause-button').addEventListener('click', audiography.pauseAudio)
-
-
-		  });
-		
-		p.on('segments.dragged', function(event){
-		  	console.log(event); 
-		  	newSegment.startTime = event.startTime; 
-		  	newSegment.endTime = event.endTime; 
-		 });   
-
-
-
-		})(peaks);
-	}); 
-
-
-
-</script> -->
