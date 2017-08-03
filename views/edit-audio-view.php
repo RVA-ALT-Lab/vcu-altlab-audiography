@@ -16,13 +16,13 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 	<tr>
 		<th>Media URL</th>
 		<td>
-		<?php echo sprintf('<a href="%s">%s</a>', $selected_audiographic['media_url'], $selected_audiographic['media_url']) ?>
+		<?php echo sprintf('<a href="%s">%s</a>', AudiographyPlugin::stripProtocolFromString($selected_audiographic['media_url']), AudiographyPlugin::stripProtocolFromString($selected_audiographic['media_url']));  ?>
 		</td>
 	</tr>
 </table>
 <br>
 
-<?php echo sprintf('<audio id="audiographic-source"> <source src="%s"></source></audio>', $selected_audiographic['media_url']) ?>
+<?php echo sprintf('<audio id="audiographic-source"> <source src="%s"></source></audio>', AudiographyPlugin::stripProtocolFromString($selected_audiographic['media_url'])) ?>
 		<div id="custom-audio-controls">
 			<div class="btn btn-default" id="seek-backward-button">
 				<span class="glyphicon glyphicon-backward"></span>

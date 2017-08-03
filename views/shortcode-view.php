@@ -2,7 +2,7 @@
 <div class="row">
 <div class="col-lg-12">
 	<h3><?php echo $selected_audiographic['name']; ?></h3>
-	<?php echo sprintf('<audio id="audiographic-source"> <source src="%s"></source></audio>', $selected_audiographic['media_url']) ?>
+	<?php echo sprintf('<audio id="audiographic-source"> <source src="%s"></source></audio>', AudiographyPlugin::stripProtocolFromString($selected_audiographic['media_url'])); ?>
 	<div id="audiographic-waveform">
 		
 	</div>
