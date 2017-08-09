@@ -13,6 +13,10 @@
 	display: inline-block;
 }
 
+.audiographic-container {
+	background-color: #fff;
+}
+
 /*.zoom-container {
 	display: none; 
 }*/

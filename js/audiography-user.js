@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function(event){
+		console.log('this stuff actually gets called...'); 
 
 
 		(function(Peaks, existingSegments, Audiography){
@@ -9,11 +10,11 @@ document.addEventListener('DOMContentLoaded', function(event){
 		// data for the audio element loads. Since we are doing other stuff to differentiate between webkitAudioContext and AudioContext
 		// elsewhere, this seems more sensible than UA sniffing
 
-			if (window.webkitAudioContext){
-				audiography.audioElement.addEventListener('loadeddata', audiography.initializeShortcodeView)
-			} else {
+			// if (window.webkitAudioContext){
+			// 	audiography.audioElement.addEventListener('loadeddata', audiography.initializeShortcodeView)
+			// } else {
 				audiography.initializeShortcodeView(); 
-			}
+			// }
 
 		// }); 
 		//End event listener for when audio is loaded

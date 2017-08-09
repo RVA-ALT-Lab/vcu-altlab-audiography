@@ -1,5 +1,5 @@
 
-<div class="row">
+<div class="row" class="audiographic-container">
 <div class="col-lg-12">
 	<h3><?php echo $selected_audiographic['name']; ?></h3>
 	<?php echo sprintf('<audio id="audiographic-source"> <source src="%s"></source></audio>', AudiographyPlugin::stripProtocolFromString($selected_audiographic['media_url'])); ?>
@@ -34,7 +34,7 @@
 			</div>
 		</div>
 			<h5>
-				Current Time: {{currentTime}} 
+				Current Time: {{formattedTime}} 
 			</h5>
 			<div>
 			<div class="row">
@@ -42,7 +42,7 @@
 				<div class="list-group hidden-sm hidden-xs">
 				      <a v-bind:class="{active: (segment.startTime < currentTime && segment.endTime > currentTime), 'list-group-item': true }" v-for="segment in segments" v-on:click="seekToSegment(segment)">
 				      <h5>{{segment.segmentName }}</h5>
-				      <p>{{Math.floor(segment.startTime)}} - {{Math.floor(segment.endTime)}}</p>
+				      <p>{{ formatTime(segment.startTime) }} - {{formatTime(segment.endTime)}}</p>
 				      </a>
 				 </div>
 
@@ -61,7 +61,7 @@
 				<div class="col-lg-9 col-md-9">
 					<div class="panel panel-default">
 						<div class="panel-body" id="current-segment-description">
-							<h2 v-if="currentSegment">{{currentSegment.segmentName}}&nbsp;({{currentSegment.startTime}} - {{currentSegment.endTime}})</h2>
+							<h2 v-if="currentSegment">{{currentSegment.segmentName}}&nbsp;({{formatTime(currentSegment.startTime)}} - {{formatTime(currentSegment.endTime)}})</h2>
 							<div v-if="currentSegment" v-html="currentSegment.segmentDescription">
 							</div>
 						</div>

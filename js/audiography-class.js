@@ -98,7 +98,18 @@ var Audiography = function(audioElement, Peaks){
 
 					      		return currentSegment; 
 
-					      	}
+					      	}, 
+				  			formattedTime: function(){
+				  				var formattedTime; 
+
+				  				var minutes = Math.floor(this.currentTime/ 60); 
+				  				var seconds = Math.floor(this.currentTime - (minutes * 60));
+
+				  				minutes = (minutes < 10)? "0" + minutes : minutes; 
+				  				seconds = (seconds < 10)? "0" + seconds : seconds; 
+
+				  				return (minutes + ":" + seconds); 
+				  			}, 
 					      },
 					      methods: {
 					        seekToSegment: function(segment){
@@ -129,6 +140,17 @@ var Audiography = function(audioElement, Peaks){
 					        	}
 
 					        	this.seekToSegment(this.segments[currentIndex]);
+					        }, 
+					        formatTime: function(time){
+					        	var formattedTime; 
+
+				  				var minutes = Math.floor(time / 60); 
+				  				var seconds = Math.floor(time - (minutes * 60));
+
+				  				minutes = (minutes < 10)? "0" + minutes : minutes; 
+				  				seconds = (seconds < 10)? "0" + seconds : seconds; 
+
+				  				return (minutes + ":" + seconds); 	
 					        }
 					      }
 					 })
@@ -204,6 +226,16 @@ var Audiography = function(audioElement, Peaks){
 		  			segmentTitle: '',  
 
 		  		}, 
+		  		computed: {
+		  			formattedTime: function(){
+		  				var formattedTime; 
+
+		  				var minutes = Math.floor(this.currentTime) / 60; 
+		  				var seconds = this.currentTime - (minutes * 60); 
+
+		  				return (minutes + ":" + seconds); 
+		  			}
+		  		}, 
 		  		methods: {
 
 		  		}
@@ -214,6 +246,38 @@ var Audiography = function(audioElement, Peaks){
 				    })
 		
 		  p.on('segments.ready', function(){
+
+		  	var clickDragStartTime = 0; 
+		  	var clickDragEndTime = 0; 
+		  	var waveformCanvas = document.querySelector('#audiographic-waveform .overview-container');
+
+		  	waveformCanvas.addEventListener('mousedown', function(){
+		  		console.table(clickDragStartTime, clickDragEndTime)
+
+		  		clickDragStartTime = p.time.getCurrentTime(); 
+
+		  	}); 
+
+		  	waveformCanvas.addEventListener('mouseup', function(){
+		  		clickDragEndTime = p.time.getCurrentTime();
+
+		  		console.table([{"startTime":clickDragStartTime}, {"endTime":clickDragEndTime}])
+		  		newSegment.startTime = clickDragStartTime; 
+		  		newSegment.endTime = clickDragEndTime;  
+		  		p.segments.add({
+			  		startTime: newSegment.startTime, 
+			  		endTime: newSegment.endTime,
+			  		color: newSegment.color, 
+			  		editable: true,
+			  		id: newSegment.segmentId, 
+			  	})
+			  	document.querySelector('#new-segment-form').style.display ='block'; 
+		  	}) 
+
+
+
+
+
 
 		  	document.querySelector('#add-segment').addEventListener('click', function(){
 				p.segments.add({
