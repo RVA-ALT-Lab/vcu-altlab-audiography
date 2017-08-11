@@ -249,34 +249,44 @@ var Audiography = function(audioElement, Peaks){
 
 		  	var clickDragStartTime = 0; 
 		  	var clickDragEndTime = 0; 
+		  	var isMouseDown = false; 
+		  	var isSegmentAdded = false; 
+
 		  	var waveformCanvas = document.querySelector('#audiographic-waveform .overview-container');
 
+		  	waveformCanvas.addEventListener('click', function(){
+
+		  		console.log('click'); 
+		  	}); 
+
 		  	waveformCanvas.addEventListener('mousedown', function(){
-		  		console.table(clickDragStartTime, clickDragEndTime)
+		  		console.log('mousedown'); 
+		  		isMouseDown = true; 
 
 		  		clickDragStartTime = p.time.getCurrentTime(); 
 
 		  	}); 
 
 		  	waveformCanvas.addEventListener('mouseup', function(){
+		  		console.log('mouseup'); 
+		  		isMouseDown = false; 
 		  		clickDragEndTime = p.time.getCurrentTime();
 
-		  		console.table([{"startTime":clickDragStartTime}, {"endTime":clickDragEndTime}])
-		  		newSegment.startTime = clickDragStartTime; 
-		  		newSegment.endTime = clickDragEndTime;  
-		  		p.segments.add({
-			  		startTime: newSegment.startTime, 
-			  		endTime: newSegment.endTime,
-			  		color: newSegment.color, 
-			  		editable: true,
-			  		id: newSegment.segmentId, 
-			  	})
-			  	document.querySelector('#new-segment-form').style.display ='block'; 
-		  	}) 
+		  		if(clickDragStartTime !== clickDragEndTime && clickDragEndTime > clickDragStartTime){
 
+			  		newSegment.startTime = clickDragStartTime; 
+			  		newSegment.endTime = clickDragEndTime;  
+			  		p.segments.add({
+				  		startTime: newSegment.startTime, 
+				  		endTime: newSegment.endTime,
+				  		color: newSegment.color, 
+				  		editable: true,
+				  		id: newSegment.segmentId, 
+				  	})
+				  	document.querySelector('#new-segment-form').style.display ='block'; 
 
-
-
+			  	}
+		  	}); 
 
 
 		  	document.querySelector('#add-segment').addEventListener('click', function(){
