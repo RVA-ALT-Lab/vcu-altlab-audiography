@@ -46,15 +46,15 @@ var Audiography = function(audioElement, Peaks){
 
 				  // existingSegments global is printed in shortcode-view.php 
 				  existingSegments.forEach(function(segment){
-				  	segment.startTime = parseInt(segment.startTime); 
-				  	segment.endTime = parseInt(segment.endTime);
+				  	segment.startTime = parseFloat(segment.startTime); 
+				  	segment.endTime = parseFloat(segment.endTime);
 				  	segment.segmentDescription = document.getElementById(segment.id).innerHTML;  
 
 				  }); 
 
 
 				  existingSegments.sort(function(a, b){
-				  	return parseInt(a.startTime) -  parseInt(b.startTime); 
+				  	return parseFloat(a.startTime) -  parseFloat(b.startTime); 
 				  }); 
 
 
@@ -191,12 +191,12 @@ var Audiography = function(audioElement, Peaks){
 
 		  	if ( Array.isArray(existingSegments) ){
 			  existingSegments.forEach(function(segment){
-			  	segment.startTime = parseInt(segment.startTime);
-			  	segment.endTime = parseInt(segment.endTime); 
+			  	segment.startTime = parseFloat(segment.startTime);
+			  	segment.endTime = parseFloat(segment.endTime); 
 			 });
 			} else {
-				existingSegments.startTime = parseInt(existingSegments.startTime); 
-				existingSegments.endTime = parseInt(existingSegments.endTime); 
+				existingSegments.startTime = parseFloat(existingSegments.startTime); 
+				existingSegments.endTime = parseFloat(existingSegments.endTime); 
 				existingSegments = [existingSegments]; 
 			}
 
@@ -333,12 +333,12 @@ var Audiography = function(audioElement, Peaks){
 
 		  	if ( Array.isArray(existingSegments) ){
 			  existingSegments.forEach(function(segment){
-			  	segment.startTime = parseInt(segment.startTime);
-			  	segment.endTime = parseInt(segment.endTime); 
+			  	segment.startTime = parseFloat(segment.startTime);
+			  	segment.endTime = parseFloat(segment.endTime); 
 			 });
 			} else {
-				existingSegments.startTime = parseInt(existingSegments.startTime); 
-				existingSegments.endTime = parseInt(existingSegments.endTime); 
+				existingSegments.startTime = parseFloat(existingSegments.startTime); 
+				existingSegments.endTime = parseFloat(existingSegments.endTime); 
 				existingSegments = [existingSegments]; 
 			}
 

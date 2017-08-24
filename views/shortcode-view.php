@@ -1,5 +1,5 @@
 
-<div class="row" class="audiographic-container">
+<div class="row audiographic-container">
 <div class="col-lg-12">
 	<h3><?php echo $selected_audiographic['name']; ?></h3>
 	<?php echo sprintf('<audio id="audiographic-source"> <source src="%s"></source></audio>', AudiographyPlugin::stripProtocolFromString($selected_audiographic['media_url'])); ?>
