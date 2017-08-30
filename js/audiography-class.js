@@ -250,7 +250,7 @@ var Audiography = function(audioElement, Peaks){
 		  	var clickDragStartTime = 0; 
 		  	var clickDragEndTime = 0; 
 		  	var isMouseDown = false; 
-		  	var isSegmentAdded = false; 
+		  	var isSegmentAlreadyAdded = false; 
 
 		  	var waveformCanvas = document.querySelector('#audiographic-waveform .overview-container');
 
@@ -273,6 +273,7 @@ var Audiography = function(audioElement, Peaks){
 		  		clickDragEndTime = p.time.getCurrentTime();
 
 		  		if(clickDragStartTime !== clickDragEndTime && clickDragEndTime > clickDragStartTime){
+		  			if(!isSegmentAlreadyAdded){
 
 			  		newSegment.startTime = clickDragStartTime; 
 			  		newSegment.endTime = clickDragEndTime;  
@@ -283,21 +284,28 @@ var Audiography = function(audioElement, Peaks){
 				  		editable: true,
 				  		id: newSegment.segmentId, 
 				  	})
+				  	
 				  	document.querySelector('#new-segment-form').style.display ='block'; 
 
+				  }
+				  isSegmentAlreadyAdded = true; 
 			  	}
 		  	}); 
 
 
 		  	document.querySelector('#add-segment').addEventListener('click', function(){
-				p.segments.add({
-			  		startTime: (newSegment.currentTime > 1) ? newSegment.currentTime : 3 , 
-			  		endTime: (newSegment.currentTime + (self.audioElement.duration /10) ),
-			  		color: newSegment.color, 
-			  		editable: true,
-			  		id: newSegment.segmentId, 
-			  	})
-			  	document.querySelector('#new-segment-form').style.display ='block'; 
+				
+		  		if (!isSegmentAlreadyAdded){
+					p.segments.add({
+				  		startTime: (newSegment.currentTime > 1) ? newSegment.currentTime : 3 , 
+				  		endTime: (newSegment.currentTime + (self.audioElement.duration /10) ),
+				  		color: newSegment.color, 
+				  		editable: true,
+				  		id: newSegment.segmentId, 
+				  	})
+				  	document.querySelector('#new-segment-form').style.display ='block'; 
+			  	}
+			  	isSegmentAlreadyAdded = true; 
 		 
 		  	}) 
 
