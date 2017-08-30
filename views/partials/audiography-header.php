@@ -1,4 +1,4 @@
-<div class="wrap">
+<div class="wrap" id="audiography-wrapper">
 
 	<div class="container">
 		<div class="row">
@@ -9,6 +9,6 @@
 			<?php echo sprintf('<a href="%s/wp-admin/admin.php?page=vcu_altlab_audiography"><span class="glyphicon glyphicon-home"></span> Home</a>', get_site_url() )?>
 		</li>
 		<li role="presentation">
-			<?php echo sprintf('<a href="%s/wp-admin/admin.php?page=vcu_altlab_audiography&action=add"><span class="glyphicon glyphicon-upload"></span> Upload File</a>', get_site_url() )?>
+			<?php echo sprintf('<a href="%s/wp-admin/admin.php?page=vcu_altlab_audiography&action=add"><span class="glyphicon glyphicon-plus"></span> New Audiographic</a>', get_site_url() )?>
 		</li>
 	</ul>

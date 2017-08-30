@@ -22,17 +22,23 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 	</div>
 
 <?php endif; ?>	
+	<p>You can upload either an audio file from your local computer, or you can provide a link to a public audio file stored in a cloud service like Dropbox or Google Drive. If, for whatever reason, you decide to include both, the URL will be disregarded.</p>
 
 	<form id="upload-audio" name="upload-audio" method="post" enctype="multipart/form-data">
 	<div class="form-group">
 		<label for="audiographic-name">Audiographic Name</label>
 		<br>
-		<input type="text" name="audiographic-name" id="audiographic-name">
+		<input type="text" name="audiographic-name" id="audiographic-name" class="regular-text">
 	</div>
 	<div class="form-group">
 		<label for="uploaded-audio">Audio File</label>
 		<br>
 		<input type="file" name="uploaded-audio" name="uploaded-audio">
+	</div>
+	<div class="form-group">
+		<label for="uploaded-audio-url">URL to Public Audio File</label>
+		<br>
+		<input type="text" name="uploaded-audio-url" name="uploaded-audio-url" class="regular-text">
 	</div>
 	<input type="hidden" name="is-uploaded-audio" value="Y">
 	<?php submit_button('Upload') ?>	
