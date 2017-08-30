@@ -27,9 +27,6 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 			<div class="btn btn-default" id="play-button">
 				<span class="glyphicon glyphicon-play"></span>
 			</div>
-			<div class="btn btn-default" id="pause-button">
-				<span class="glyphicon glyphicon-pause"></span>
-			</div>
 			<div class="btn btn-default" id="seek-forward-button">
 				<span class="glyphicon glyphicon-forward"></span>
 			</div>
