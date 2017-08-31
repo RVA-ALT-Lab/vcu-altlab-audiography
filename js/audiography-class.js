@@ -316,7 +316,6 @@ var Audiography = function(audioElement, Peaks){
 		    document.querySelector('#seek-forward-button').addEventListener('click', self.seekAudioForward)
 		    document.querySelector('#seek-backward-button').addEventListener('click', self.seekAudioBackward)
 		    document.querySelector('#play-button').addEventListener('click', self.playAudio)
-		    document.querySelector('#pause-button').addEventListener('click', self.pauseAudio)
 
 
 		  });
@@ -397,7 +396,6 @@ var Audiography = function(audioElement, Peaks){
 		    document.querySelector('#seek-forward-button').addEventListener('click', self.seekAudioForward)
 		    document.querySelector('#seek-backward-button').addEventListener('click', self.seekAudioBackward)
 		    document.querySelector('#play-button').addEventListener('click', self.playAudio)
-		    document.querySelector('#pause-button').addEventListener('click', self.pauseAudio)
 
 
 		  });
