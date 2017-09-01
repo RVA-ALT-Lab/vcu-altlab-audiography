@@ -175,4 +175,8 @@ function init_shortcodes(){
 
 add_action('init', 'init_shortcodes'); 
 
+//Disable Jetpack contact forms 
+
+add_filter( 'tmp_grunion_allow_editor_view', '__return_false' );
+
 ?>
