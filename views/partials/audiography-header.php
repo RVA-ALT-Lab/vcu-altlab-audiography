@@ -3,7 +3,7 @@
 	<div class="container-fluid">
 		<div class="row">
 		<div class="col-lg-12">
-			<h1>Audiography Plugin | GitHub Test</h1>
+			<h1>Audiography Plugin</h1>
 
 	<ul class="nav nav-pills">
 		<li role="presentation">
