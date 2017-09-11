@@ -1,6 +1,6 @@
 <?php 
 /* Plugin Name: VCU ALT Lab Audiography
- *
+ * Version: 0.7
  *
  *
  *
