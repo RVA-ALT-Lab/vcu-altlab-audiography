@@ -20,7 +20,8 @@ function vcu_altlab_audiography_menu(){
 		'Audiography',
 		'manage_options',
 		'vcu_altlab_audiography',
-		'vcu_altlab_audiography_options_page'
+		'vcu_altlab_audiography_options_page',
+		'dashicons-playlist-audio'
 		);
 
 }
