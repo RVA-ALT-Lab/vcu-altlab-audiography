@@ -1,6 +1,6 @@
 <?php
 /* Plugin Name: ALT Lab Audiography
- * Version: 1.0
+ * Version: 1.0.2
  * Author: Jeff Everhart
  * Author URI: http://altlab.vcu.edu/team-members/jeff-everhart/
  * License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
