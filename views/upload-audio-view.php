@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 
@@ -8,12 +8,12 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 
 <?php if($audiographic_upload_successful): ?>
 	<div class="alert alert-success alert-dismissable">
-		Your file <?php echo $audiographic_name; ?> was uploaded successfully. 
+		Your file <?php echo $audiographic_name; ?> was uploaded successfully.
 
 		<?php echo sprintf('<a href="%s/wp-admin/admin.php?page=vcu_altlab_audiography&action=edit&id=%s">Click here to start editing this audiographic.</a>', get_site_url(), $uploaded) ?>
 	</div>
 
-<?php endif; ?>	
+<?php endif; ?>
 
 <?php if($audiographic_upload_error): ?>
 	<div class="alert alert-danger alert-dismissable">
@@ -21,7 +21,7 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 		Details: <?php echo $audiographic_upload_error ?>
 	</div>
 
-<?php endif; ?>	
+<?php endif; ?>
 	<p>You can upload either an audio file from your local computer, or you can provide a link to a public audio file stored in a cloud service like Dropbox or Google Drive. If, for whatever reason, you decide to include both, the URL will be disregarded.</p>
 
 	<form id="upload-audio" name="upload-audio" method="post" enctype="multipart/form-data">
@@ -35,17 +35,12 @@ require_once(plugin_dir_path(__FILE__) . '/partials/audiography-header.php');
 		<br>
 		<input type="file" name="uploaded-audio" name="uploaded-audio">
 	</div>
-	<div class="form-group">
-		<label for="uploaded-audio-url">URL to Public Audio File</label>
-		<br>
-		<input type="text" name="uploaded-audio-url" name="uploaded-audio-url" class="regular-text">
-	</div>
 	<input type="hidden" name="is-uploaded-audio" value="Y">
-	<?php submit_button('Upload') ?>	
+	<?php submit_button('Upload') ?>
 
 	</form>
 </div>
 
-<?php 
+<?php
 require_once(plugin_dir_path(__FILE__) . '/partials/audiography-footer.php');
 ?>
